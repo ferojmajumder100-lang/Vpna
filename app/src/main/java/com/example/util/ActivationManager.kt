@@ -154,10 +154,10 @@ object ActivationManager {
         }
 
         val formats = listOf(
-            SimpleDateFormat("yyyy-MM-dd", Locale.US),
-            SimpleDateFormat("yyyy/MM/dd", Locale.US),
-            SimpleDateFormat("dd-MM-yyyy", Locale.US),
-            SimpleDateFormat("dd/MM/yyyy", Locale.US)
+            SimpleDateFormat("yyyy-MM-dd", Locale.US).apply { isLenient = false },
+            SimpleDateFormat("yyyy/MM/dd", Locale.US).apply { isLenient = false },
+            SimpleDateFormat("dd-MM-yyyy", Locale.US).apply { isLenient = false },
+            SimpleDateFormat("dd/MM/yyyy", Locale.US).apply { isLenient = false }
         )
 
         var expiryDateObj: Date? = null
