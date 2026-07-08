@@ -1,0 +1,6 @@
+{
+  "name": "INSTA PAID ✅",
+  "description": "Instagram tool for managing settings, cookies, and 2FA authentication code generation.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
