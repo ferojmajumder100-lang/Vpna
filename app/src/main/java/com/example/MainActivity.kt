@@ -79,7 +79,7 @@ fun MainScreen(modifier: Modifier = Modifier) {
     val context = LocalContext.current
     
     // States
-    var currentUrl by remember { mutableStateOf("https://www.instagram.com") }
+    var currentUrl by remember { mutableStateOf("https://www.instagram.com/?hl=es") }
     var progress by remember { mutableStateOf(0f) }
     var isLoading by remember { mutableStateOf(false) }
     var isOnline by remember { mutableStateOf(true) }
@@ -330,6 +330,24 @@ fun MainScreen(modifier: Modifier = Modifier) {
                                     }
                                 }
 
+                                override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
+                                    val uri = request?.url
+                                    if (uri != null) {
+                                        val urlString = uri.toString()
+                                        if ((urlString.contains("instagram.com") || urlString.contains("facebook.com")) && 
+                                            !urlString.contains("hl=es") && 
+                                            !urlString.startsWith("intent://") && 
+                                            !urlString.startsWith("market://")
+                                        ) {
+                                            val separator = if (urlString.contains("?")) "&" else "?"
+                                            val newUrl = "$urlString${separator}hl=es"
+                                            view?.loadUrl(newUrl, mapOf("Accept-Language" to "es-ES,es;q=0.9"))
+                                            return true
+                                        }
+                                    }
+                                    return false
+                                }
+
                                 override fun onReceivedError(
                                     view: WebView?,
                                     request: WebResourceRequest?,
@@ -373,7 +391,7 @@ fun MainScreen(modifier: Modifier = Modifier) {
                                 loadWithOverviewMode = true
                             }
 
-                            loadUrl(currentUrl)
+                            loadUrl(currentUrl, mapOf("Accept-Language" to "es-ES,es;q=0.9"))
                         }
 
                         swipeLayout.addView(webView)
@@ -499,7 +517,10 @@ fun MainScreen(modifier: Modifier = Modifier) {
                         onClick = {
                             if (isOnline) {
                                 isWebError = false
-                                webViewInstance?.loadUrl("https://accountscenter.instagram.com/password_and_security/two_factor/")
+                                webViewInstance?.loadUrl(
+                                    "https://accountscenter.instagram.com/password_and_security/two_factor/?hl=es",
+                                    mapOf("Accept-Language" to "es-ES,es;q=0.9")
+                                )
                             } else {
                                 Toast.makeText(context, "Internet Offline", Toast.LENGTH_SHORT).show()
                             }
@@ -518,7 +539,10 @@ fun MainScreen(modifier: Modifier = Modifier) {
                         onClick = {
                             if (isOnline) {
                                 isWebError = false
-                                webViewInstance?.loadUrl("https://accountscenter.instagram.com/youraccount/contact_points/?entrypoint=profile_page&is_from_dialog=true")
+                                webViewInstance?.loadUrl(
+                                    "https://accountscenter.instagram.com/youraccount/contact_points/?entrypoint=profile_page&is_from_dialog=true&hl=es",
+                                    mapOf("Accept-Language" to "es-ES,es;q=0.9")
+                                )
                             } else {
                                 Toast.makeText(context, "Internet Offline", Toast.LENGTH_SHORT).show()
                             }
