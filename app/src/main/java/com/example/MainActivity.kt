@@ -395,11 +395,11 @@ fun MainScreen(modifier: Modifier = Modifier) {
             }
         }
 
-        // 4. Custom Bottom Panel (Exactly 200dp Height)
+        // 4. Custom Bottom Panel (Auto-wrap height to prevent squishing)
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(200.dp)
+                .wrapContentHeight()
                 .background(
                     brush = Brush.verticalGradient(
                         colors = listOf(SurfaceDark, DarkBackground)
@@ -414,7 +414,7 @@ fun MainScreen(modifier: Modifier = Modifier) {
                 )
                 .navigationBarsPadding()
                 .padding(top = 16.dp, bottom = 16.dp),
-            verticalArrangement = Arrangement.SpaceBetween,
+            verticalArrangement = Arrangement.spacedBy(12.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             // Section Title
